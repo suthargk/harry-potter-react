@@ -8,7 +8,7 @@ const ConversationList = ({ conversations, isActive }) => {
   return (
     <div className="conversation-container">
       <div className="conversation-main">
-        <Heading heading={isActive} />
+        <Heading heading={isActive} totalNumber={conversations.length}/>
         <ul className="conversation-list">
           {conversations.map((conversation) => (
             <Conversation key={uuid4()} conversation={conversation} />

@@ -8,7 +8,7 @@ const SentenceList = ({ sentences, isActive, searchTerm }) => {
   return (
     <div className="sentence-container">
       <div className="sentence-main">
-        <Heading heading={isActive} />
+        <Heading heading={isActive} totalNumber={sentences.length}/>
         <ul className="sentence-list">
           {sentences.map((sentence) => (
             <Sentence

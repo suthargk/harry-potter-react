@@ -8,7 +8,7 @@ const NounList = memo(({ nouns, isActive }) => {
   return (
     <div className="noun-container">
       <div className="noun-main">
-        <Heading heading={isActive}/>
+        <Heading heading={isActive} totalNumber={nouns.length}/>
         <ul className="noun-list">
           {newNouns.map((noun) => (
             <Noun key={uuid4()} noun={noun} />

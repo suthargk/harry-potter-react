@@ -14,13 +14,13 @@ import SuggestionBox from "./components/SuggestionBox";
 const navigationData = [
   {
     id: uuid4(),
-    navigationName: "Sentences",
+    navigationName: "sentences",
   },
   {
     id: uuid4(),
-    navigationName: "Nouns",
+    navigationName: "nouns",
   },
-  { id: uuid4(), navigationName: "Conversations" },
+  { id: uuid4(), navigationName: "conversations" },
 ];
 
 const App = () => {
@@ -55,7 +55,9 @@ const App = () => {
   const findNouns = useCallback(() => {
     const convertStoryChapterIntoArray = storyChapter.toLowerCase().split(" ");
     const totalNouns = nounData.filter((noun) => {
-      return convertStoryChapterIntoArray.find((word) => word.toLowerCase() === noun);
+      return convertStoryChapterIntoArray.find(
+        (word) => word.toLowerCase() === noun
+      );
     });
     setConversationsAndNouns((prev) => {
       return { ...prev, nouns: totalNouns };
@@ -120,33 +122,44 @@ const App = () => {
       </nav>
       <div className="divider"></div>
       <aside>
-        {isActive === "Nouns" ? (
+        {isActive === "nouns" && (
           <NounList nouns={conversationsAndNouns.nouns} isActive={isActive} />
-        ) : null}
-        {isActive === "Conversations" ? (
+        )}
+        {isActive === "conversations" && (
           <ConversationList
             conversations={conversationsAndNouns.conversations}
             isActive={isActive}
           />
-        ) : null}
-        {isActive === "Sentences" ? (
+        )}
+        {isActive === "sentences" && (
           <>
             <div className="search-form">
-            <InputWithLabel
-              id="search"
-              value={searchTerm}
-              onHandleChange={handleChange}
-              onHandleSubmit={handleSubmit}
-            >
-              Search:{" "}
-            </InputWithLabel>
-            {searchTerm && toggle && (
-              <CountStatus searchTerm={searchTerm} wordCounter={wordCounter} />
-            )}
+              <InputWithLabel
+                id="search"
+                value={searchTerm}
+                onHandleChange={handleChange}
+                onHandleSubmit={handleSubmit}
+              >
+                Search:{" "}
+              </InputWithLabel>
+              {searchTerm && toggle && (
+                <CountStatus
+                  searchTerm={searchTerm}
+                  wordCounter={wordCounter}
+                />
+              )}
             </div>
-            {wordCounter && toggle ? <SentenceList sentences={sentences} searchTerm={searchTerm} isActive={isActive} /> : <SuggestionBox />  }
+            {wordCounter && toggle ? (
+              <SentenceList
+                sentences={sentences}
+                searchTerm={searchTerm}
+                isActive={isActive}
+              />
+            ) : (
+              <SuggestionBox />
+            )}
           </>
-        ) : null}
+        )}
       </aside>
     </div>
   );

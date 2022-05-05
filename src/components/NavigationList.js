@@ -2,7 +2,7 @@ import React from "react";
 import "../App.css"
 import Navigation from "./Navigation";
 
-const NavigationList = ({ navigations, isActive, onHandleActiveLink }) => {
+const NavigationList = ({ navigations, isActive, onHandleActiveLink}) => {
   return (
     <div className="navigation-container">
       <ul className="navigation-list">
