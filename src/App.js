@@ -1,18 +1,38 @@
 import React, { useState, useEffect, useCallback } from "react";
+import { v4 as uuid4 } from "uuid";
+import "./App.css";
 import { storyChapter } from "./data/storyChapter";
-import { nounData } from './data/nounData'
+import { nounData } from "./data/nounData";
 import InputWithLabel from "./components/InputWithLabel";
 import CountStatus from "./components/CountStatus";
 import SentenceList from "./components/SentenceList";
-import NounList from './components/NounList'
+import NounList from "./components/NounList";
 import ConversationList from "./components/ConversationList";
+import NavigationList from "./components/NavigationList";
+
+const navigationData = [
+  {
+    id: uuid4(),
+    navigationName: "Sentences",
+  },
+  {
+    id: uuid4(),
+    navigationName: "Nouns",
+  },
+  { id: uuid4(), navigationName: "Conversations" },
+];
 
 const App = () => {
+  const [navigations, setNavigations] = useState(navigationData);
   const [searchTerm, setSearchTerm] = useState("");
   const [wordCounter, setWordCounter] = useState(0);
-  const [conversationsAndNouns, setConversationsAndNouns] = useState({conversations: [], nouns: []})
+  const [conversationsAndNouns, setConversationsAndNouns] = useState({
+    conversations: [],
+    nouns: [],
+  });
   const [sentences, setSentences] = useState([]);
   const [toggle, setToggle] = useState(false);
+  const [isActive, setIsActive] = useState(navigationData[0].navigationName);
 
   const handleChange = (event) => {
     setSearchTerm(event.target.value);
@@ -32,28 +52,30 @@ const App = () => {
   }, [searchTerm]);
 
   const findNouns = useCallback(() => {
-    const convertStoryChapterIntoArray = storyChapter.toLowerCase().split(" ")
-    const totalNouns = convertStoryChapterIntoArray.filter(word => {
-          return nounData.find(noun => noun.toLowerCase() === word)
-    })
-    setConversationsAndNouns(prev => {
-        return {...prev, nouns: totalNouns}
-    })
-}, [])
+    const convertStoryChapterIntoArray = storyChapter.toLowerCase().split(" ");
+    const totalNouns = nounData.filter((noun) => {
+      return convertStoryChapterIntoArray.find((word) => word.toLowerCase() === noun);
+    });
+    setConversationsAndNouns((prev) => {
+      return { ...prev, nouns: totalNouns };
+    });
+  }, []);
 
-const findConversation = useCallback(() => {
-    const conversations = storyChapter.toLowerCase().split('"').filter((conversation, index) => (index & 1))
-   
-    setConversationsAndNouns(prev => {
-        return {...prev, conversations}
-    })
-}, [])
+  const findConversation = useCallback(() => {
+    const conversations = storyChapter
+      .toLowerCase()
+      .split('"')
+      .filter((conversation, index) => index & 1);
+
+    setConversationsAndNouns((prev) => {
+      return { ...prev, conversations };
+    });
+  }, []);
 
   useEffect(() => {
-    findNouns()
-    findConversation()
-  }, [])
- 
+    findNouns();
+    findConversation();
+  }, []);
 
   const listedSentences = useCallback(() => {
     const convertStoryChapterIntoArray = storyChapter.toLowerCase().split(". ");
@@ -68,32 +90,63 @@ const findConversation = useCallback(() => {
     totalWords();
     listedSentences();
     setToggle(true);
-    
-    const conversationWordTimes = conversationsAndNouns.conversations.map(conversation => {
-        if(conversation.includes(searchTerm)) {
-            const times = conversation.split(" ").filter(word => word.includes(searchTerm))
-            return {conversation, length: times.length}
+
+    const conversationWordTimes = conversationsAndNouns.conversations.map(
+      (conversation) => {
+        if (conversation.includes(searchTerm)) {
+          const times = conversation
+            .split(" ")
+            .filter((word) => word.includes(searchTerm));
+          return { conversation, length: times.length };
         }
-    })
-    console.log(conversationWordTimes.filter(item => item))
-}
+      }
+    );
+    console.log(conversationWordTimes.filter((item) => item));
+  };
+
+  const handleActiveLink = (navigationName) => {
+    setIsActive(navigationName);
+  };
 
   return (
-    <div>
-      <InputWithLabel
-        id="search"
-        value={searchTerm}
-        onHandleChange={handleChange}
-        onHandleSubmit={handleSubmit}
-      >
-        Search:{" "}
-      </InputWithLabel>
-      {searchTerm && toggle && (
-        <CountStatus searchTerm={searchTerm} wordCounter={wordCounter} />
-      )}
-      <SentenceList sentences={sentences} searchTerm={searchTerm} />
-      <NounList nouns={conversationsAndNouns.nouns}/>
-      <ConversationList conversations={conversationsAndNouns.conversations}/>
+    <div className="App">
+      <nav>
+        <NavigationList
+          navigations={navigations}
+          onHandleActiveLink={handleActiveLink}
+          isActive={isActive}
+        />
+      </nav>
+      <div className="divider"></div>
+      <aside>
+        {isActive === "Nouns" ? (
+          <NounList nouns={conversationsAndNouns.nouns} isActive={isActive} />
+        ) : null}
+        {isActive === "Conversations" ? (
+          <ConversationList
+            conversations={conversationsAndNouns.conversations}
+            isActive={isActive}
+          />
+        ) : null}
+        {isActive === "Sentences" ? (
+          <>
+            <div className="search-form">
+            <InputWithLabel
+              id="search"
+              value={searchTerm}
+              onHandleChange={handleChange}
+              onHandleSubmit={handleSubmit}
+            >
+              Search:{" "}
+            </InputWithLabel>
+            {searchTerm && toggle && (
+              <CountStatus searchTerm={searchTerm} wordCounter={wordCounter} />
+            )}
+            </div>
+            {searchTerm && toggle && <SentenceList sentences={sentences} searchTerm={searchTerm} isActive={isActive} />}
+          </>
+        ) : null}
+      </aside>
     </div>
   );
 };

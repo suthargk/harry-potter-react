@@ -1,9 +1,10 @@
 import React from 'react';
+import "../App.css"
 
 const Conversation = ({conversation}) => {
     return (
-        <li>
-            <span>{conversation}</span>    
+        <li className='conversation-item'>
+            <span style={{textTransform: "capitalize"}}>{conversation}</span>    
         </li>
     );
 };
