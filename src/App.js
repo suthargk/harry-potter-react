@@ -9,6 +9,7 @@ import SentenceList from "./components/SentenceList";
 import NounList from "./components/NounList";
 import ConversationList from "./components/ConversationList";
 import NavigationList from "./components/NavigationList";
+import SuggestionBox from "./components/SuggestionBox";
 
 const navigationData = [
   {
@@ -143,7 +144,7 @@ const App = () => {
               <CountStatus searchTerm={searchTerm} wordCounter={wordCounter} />
             )}
             </div>
-            {searchTerm && toggle && <SentenceList sentences={sentences} searchTerm={searchTerm} isActive={isActive} />}
+            {wordCounter && toggle ? <SentenceList sentences={sentences} searchTerm={searchTerm} isActive={isActive} /> : <SuggestionBox />  }
           </>
         ) : null}
       </aside>
