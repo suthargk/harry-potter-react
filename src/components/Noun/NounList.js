@@ -1,7 +1,8 @@
 import React, { memo } from "react";
 import { v4 as uuid4 } from "uuid";
 import Noun from "./Noun";
-import Heading from "./Heading";
+import Heading from "../Heading";
+import "../../App.css"
 
 const NounList = memo(({ nouns, isActive }) => {
   const newNouns = [...nouns].sort()

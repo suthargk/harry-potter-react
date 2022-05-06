@@ -1,8 +1,8 @@
 import React from "react";
-import "../App.css"
+import "../../App.css"
 import { v4 as uuid4 } from "uuid";
 import Conversation from "./Conversation";
-import Heading from "./Heading";
+import Heading from "../Heading";
 
 const ConversationList = ({ conversations, isActive }) => {
   return (

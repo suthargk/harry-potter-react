@@ -1,11 +1,14 @@
 import React from 'react';
-import '../App.css'
-import Smile from '../icons/Smile'
+import "../App.css"
+import NotFound from '../icons/NotFound'
 
 const SuggestionBox = () => {
     return (
         <div className='suggestion-container'>
-            <div className='suggestion-main'><span>Please search the word to find sentences</span><Smile /></div>
+            <div className='suggestion-main'>
+                <NotFound />
+                <span>Please search the word to find sentences</span>
+                </div>
         </div>
     );
 };

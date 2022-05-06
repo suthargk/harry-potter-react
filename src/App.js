@@ -5,10 +5,10 @@ import { storyChapter } from "./data/storyChapter";
 import { nounData } from "./data/nounData";
 import InputWithLabel from "./components/InputWithLabel";
 import CountStatus from "./components/CountStatus";
-import SentenceList from "./components/SentenceList";
-import NounList from "./components/NounList";
-import ConversationList from "./components/ConversationList";
-import NavigationList from "./components/NavigationList";
+import SentenceList from "./components/Sentence/SentenceList";
+import NounList from "./components/Noun/NounList";
+import ConversationList from "./components/Conversation/ConversationList";
+import NavigationList from "./components/Navigation/NavigationList";
 import SuggestionBox from "./components/SuggestionBox";
 
 const navigationData = [

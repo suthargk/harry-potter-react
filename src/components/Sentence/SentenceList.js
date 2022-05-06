@@ -1,7 +1,7 @@
 import React from "react";
-import "../App.css";
-import Sentence from "./Sentence";
-import Heading from "./Heading";
+import "../../App.css"
+import Sentence from './Sentence'
+import Heading from "../Heading";
 import { v4 as uuid4 } from "uuid";
 
 const SentenceList = ({ sentences, isActive, searchTerm }) => {

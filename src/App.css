@@ -278,12 +278,14 @@ aside {
 }
 .suggestion-main {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 .suggestion-main svg {
-  height: 21px;
-  width: 21px;
+  height: 30%;
+  width: 30%;
+  margin-bottom: 20px;
 }
 
 
@@ -312,12 +314,18 @@ aside {
     flex-basis: 33.33%;
     text-align: center;
     margin-right: 10px;
-    margin-bottom: 0;
+    margin-bottom: 0 !important;
   }
+
   .divider {
     margin: 10px -20px;
   }
- 
+  .suggestion-main svg {
+    height: 50%;
+    width: 50%;
+    
+  }
+  
 } 
 
 @media (max-width: 640px) {
